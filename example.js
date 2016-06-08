@@ -46,7 +46,7 @@ iridium.on('initialized', function() {
         // sys.log("Date set from Iridium time");
 
 	// Example - you can close the port now we have completed...
-	iridium.close();
+	// iridium.close();
     })
 
     //console.log("System Time");
