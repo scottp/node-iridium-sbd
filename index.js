@@ -384,6 +384,10 @@ var iridium = {
     
     },
     
+    close: function() {
+	    serialPort.close();
+    },
+
     waitForNetwork: function(callback, maxWait) {
         iridium.ATS("AT+CIER=1,1,0,0", /\+CIEV:0,[^0]/, ALL, callback, iridium.globals.maxWait?iridium.globals.maxWait:iridium.globals.timeoutForever);
     },

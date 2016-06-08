@@ -27,11 +27,11 @@ iridium.on('initialized', function() {
     // use sendMessage or sendBinaryMessage for text
     // use only sendBinaryMessage for binary messages
     
-    console.log("SIGNAL Quality");
-    iridium.getSignalQuality(function(err, ctime) {
-	    console.log(err);
-	    console.log(ctime);
-	   });
+    //console.log("SIGNAL Quality");
+    //iridium.getSignalQuality(function(err, ctime) {
+    //	    console.log(err);
+    //	    console.log(ctime);
+    //	   });
 
     // sendBinaryMessage("hello2");
     //sendBinaryMessage(new Buffer("68656c6c6f", "hex"));
@@ -44,14 +44,17 @@ iridium.on('initialized', function() {
         // var fdate = dateFormat(ctime, "mmddHHMMyyyy.ss");
         // execSync("date "+fdate);
         // sys.log("Date set from Iridium time");
+
+	// Example - you can close the port now we have completed...
+	iridium.close();
     })
 
-    console.log("System Time");
-    iridium.getSystemTime(function(err, ctime) {
-        if (err) sys.log("Current Network time error = "+err);
-        sys.log("Current Network time is "+ctime);
-        sys.log("Current device time is "+Date(Date.now()));
-    });
+    //console.log("System Time");
+    //iridium.getSystemTime(function(err, ctime) {
+    //    if (err) sys.log("Current Network time error = "+err);
+    //    sys.log("Current Network time is "+ctime);
+    //    sys.log("Current device time is "+Date(Date.now()));
+    //});
 
 // to send a compressed text message use sendCompressedMessage - on the other end use ZLib Deflate to uncompress it
 //sendCompressedMessage("This is a test for the compressed messages!");
