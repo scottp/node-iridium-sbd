@@ -1,4 +1,3 @@
-"use strict";
 // Node.js library for Iridium SBD (short burst data)
 // v0.0.1 (2012-12-28)
 // (C) 2015 Brian Robinson <brian@ndmweb.com>
