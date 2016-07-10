@@ -1,35 +1,33 @@
+"use strict";
 // Node.js library for Iridium SBD (short burst data)
 // v0.0.1 (2012-12-28)
 // (C) 2015 Brian Robinson <brian@ndmweb.com>
 // (C) 2016 Scott Penrose <scottp@dd.com.au>
+// (C) 2016 Kurtis Harms <emailkurtis@gmail.com>
 
 // Original Source: http://www.veri.fi/iridiumsbd.tar.gz
 // (C) 2012 Razvan Dragomirescu <razvan.dragomirescu@veri.fi>
 
 
-var sys = require('sys'),
-        zlib = require('zlib'),
+const zlib = require('zlib'),
         async = require('async'),
         serialport = require("serialport"),
-        SerialPort = serialport.SerialPort,
-        EventEmitter = require('events').EventEmitter;
+        EventEmitter = require('events');
 
-var iridiumEvents = new EventEmitter();
+let iridiumEvents = new EventEmitter();
 
-var df;
-var er;
-var tf;
+let df, er, tf;
 
-var serialPort;
-var serialEmitter;
+let serialPort;
+let serialEmitter;
 
-var OK = /^OK\r/;
-var ALL = /.*/;
+const OK = /^OK\r/;
+const ALL = /.*/;
 
 // this array contains all possible unsollicited response codes and their
 // corresponding handling functions
 
-var iridium = {
+let iridium = {
     buffer: "",
     data: "",
     messagePending:0,
@@ -58,7 +56,6 @@ var iridium = {
     // log if debug enabled
     log: function(message) {
         if(iridium.globals.debug){
-            //sys.log(message);
             iridiumEvents.emit('debug', message);
         }
     },
@@ -83,12 +80,10 @@ var iridium = {
           execute: 'areg'
       }
     },
-    
 
     // this is the modem initialization process - echo off, clear all buffers (MO & MT)
     // query registration status (should return 2 = registered)
     // enable ring alert (AT+SBDMTA=1)
-    
     init: function() {
         iridium.batchProcess([
             iridium.echoOff,
@@ -161,7 +156,7 @@ var iridium = {
           }
     
             });    
-        }else{
+        } else {
             iridium.log('[SBD] Failed to send. The maxAttempts of send requests has been reached.');
             callback({error:'Failed to send. The maxAttempts of send requests has been reached.'});
         }
@@ -174,12 +169,12 @@ var iridium = {
           return;
       }
     
-      var buffer = (message instanceof Buffer)?message:new Buffer(message);    
+      let buffer = (message instanceof Buffer)?message:new Buffer(message);    
     
-      var command = "AT+SBDWB="+buffer.length;
+      const command = "AT+SBDWB="+buffer.length;
     
-      var ob = new Buffer(buffer.length+2);
-      var sum = 0;
+      let ob = new Buffer(buffer.length+2);
+      let sum = 0;
       for (var i=0;i<buffer.length;i++) {
           ob[i]=buffer[i];
           sum+=buffer[i];
@@ -188,8 +183,6 @@ var iridium = {
       sum>>=8;
       ob[buffer.length]=sum&0xff;
       
-     
-    
       // first write the binary message to storage - issue AT+SBDWB and wait for the modem to say READY 
       iridium.AT(command, /READY/, ALL, function(err, text) {
     
@@ -234,11 +227,12 @@ var iridium = {
           });
       });
     },
+
     // send a message via SBD and call back when done
     sendMessage: function(message, callback, maxWait) {
     
         // if no message is given, this is a mailbox check, so clear the MO storage
-        var command = message?"AT+SBDWT="+message:"AT+SBDD0"; 
+        const command = message?"AT+SBDWT="+message:"AT+SBDD0"; 
        
         // write the MO message, wait for network (+CIEV event)
         // disable signal monitoring (+CIER=0) then send the message (+SBDIXA)
@@ -264,8 +258,6 @@ var iridium = {
                     return;
                 }
     
-    
-    
                 iridium.messagePending=2;
                 iridium.disableSignalMonitoring(function(xcallback) {
                     iridium.initiateSession(callback);
@@ -278,7 +270,7 @@ var iridium = {
     enableBinaryMode: function(bufferTimeout) {
         iridium.binary.mode = true;
         setTimeout(function() {
-            var ob = new Buffer(iridium.binary.bufferCounter);
+            let ob = new Buffer(iridium.binary.bufferCounter);
             iridium.binary.buffer.copy(ob, 0, 0, ob.length);
             serialEmitter.emit('data', ob);
             iridium.binary.bufferCounter = 0;
@@ -298,7 +290,7 @@ var iridium = {
             // Collect data
             iridium.data += buffer.toString('binary');
             // Split collected data by delimiter
-            var parts = iridium.data.split("\n")
+            let parts = iridium.data.split("\n")
             iridium.data = parts.pop();
             parts.forEach(function (part, i, array) {
                 emitter.emit('data', part);
@@ -315,15 +307,15 @@ var iridium = {
         
         if (config) {
             //change globals...
-                for(var key in config){
+                for(let key in config){
                     if(typeof iridium.globals[key]!='undefined'){ iridium.globals[key] = config[key]; }
                     iridium.log('set option: '+key+": "+config[key]);
                 }
-/*
+            /*
             if (config.debug) debug=config.debug;
             if (config.port) port=config.port;
                     iridium.globals.flowControl=!!config.flowControl;
-*/
+            */
         }
         serialPort = new SerialPort(iridium.globals.port, {
             baudrate: iridium.globals.baudrate,
@@ -411,12 +403,12 @@ var iridium = {
         iridium.AT("AT-MSSTM", OK, ALL, function(err, result) {
         if (err) callback(err);
         else {
-            var m = result.match(/-MSSTM:\s*(.*)/);
+            let m = result.match(/-MSSTM:\s*(.*)/);
             if (!m) callback("UNKNOWN_TIME");
             else {
             // http://www.marsat.ru/files/files%20to%20upload/iridium%20system%20time%20change.pdf
             // New Epoch for Iridium = May 11, 2014, at 14:23:55 = 1399818235
-            var ctime = new Date( 1399818235000+(parseInt(m[1], 16)*90));
+            let ctime = new Date( 1399818235000+(parseInt(m[1], 16)*90));
             // epoch vs date object callback(null, 1399818235+(parseInt(m[1], 16)*90/1000));
             callback(null, ctime);
             }
@@ -481,9 +473,9 @@ var iridium = {
                 return;
             }
     
-            var ib = buffer;
-            var messageLength = ib.readUInt16BE(0);
-            var messageBuffer = new Buffer(messageLength);
+            let ib = buffer;
+            let messageLength = ib.readUInt16BE(0);
+            let messageBuffer = new Buffer(messageLength);
             ib.copy(messageBuffer, 0, 2, messageLength+2);
     
     
@@ -509,8 +501,8 @@ var iridium = {
             return;
         }
     
-        var m = text.match(/SBDRT:[^]{2}(.*)/);
-        var rmessage = m[1];
+        let m = text.match(/SBDRT:[^]{2}(.*)/);
+        let rmessage = m[1];
         iridium.log("Received message is "+rmessage);
         iridiumEvents.emit('newmessage', rmessage, mtqueued);
         iridium.clearMTBuffers(callback);
@@ -529,16 +521,16 @@ var iridium = {
                 });
                 return;
             }
-            var m = text.match(/\+SBDIX: (\d+), (\d+), (\d+), (\d+), (\d+), (\d+)/);
+            let m = text.match(/\+SBDIX: (\d+), (\d+), (\d+), (\d+), (\d+), (\d+)/);
             
             if(m && m.length){
                     
-                var status = m[1];
-                var momsn = m[2];
-                var mtstatus = m[3];
-                var mtmsn = m[4];
-                var mtlen = m[5];
-                var mtqueued = m[6];
+                const status = m[1];
+                const momsn = m[2];
+                const mtstatus = m[3];
+                const mtmsn = m[4];
+                const mtlen = m[5];
+                const mtqueued = m[6];
         
                 if (status<=4) {
                     iridium.log("MO message transferred successfully");
@@ -624,7 +616,6 @@ var iridium = {
         if (!timeout) timeout=iridium.globals.defaultTimeout; // general timeout 60 seconds
         if (timeout>0) tf = setTimeout(function() {
             iridium.log("Sending a timeout event for command "+command);
-            //datafunction("TIMEOUT");
         }, timeout);
     
         if (command instanceof Buffer) {
