@@ -139,6 +139,6 @@ function sendBinaryMessage(buffer) {
 
 iridium.open({
     debug: 1,
-    port: "/dev/ttyMFD1"
+    port: "/dev/serial/by-id/usb-FTDI_USB_Serial_Converter_FTHLYF0T-if00-port0"
 });
 
