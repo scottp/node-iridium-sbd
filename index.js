@@ -10,7 +10,7 @@
 
 const zlib = require('zlib'),
         async = require('async'),
-        serialport = require("serialport"),
+        SerialPort = require("serialport"),
         EventEmitter = require('events');
 
 let iridiumEvents = new EventEmitter();
@@ -380,7 +380,7 @@ let iridium = {
     },
 
     waitForNetwork: function(callback, maxWait) {
-        iridium.ATS("AT+CIER=1,1,0,0", /\+CIEV:0,[^0]/, ALL, callback, iridium.globals.maxWait?iridium.globals.maxWait:iridium.globals.timeoutForever);
+        iridium.ATS("AT+CIER=1,1,0", /\+CIEV:0,[^0]/, ALL, callback, iridium.globals.maxWait?iridium.globals.maxWait:iridium.globals.timeoutForever);
     },
     
     getSystemTime: function(callback) {
@@ -421,7 +421,7 @@ let iridium = {
     },
     
     disableSignalMonitoring: function(callback) {
-        iridium.ATS("AT+CIER=0,0,0,0", OK, ALL, callback, iridium.globals.simpleTimeout);
+        iridium.ATS("AT+CIER=0,0,0", OK, ALL, callback, iridium.globals.simpleTimeout);
     },
     getSignalQuality: function(callback) {
         iridium.AT("AT+CSQ", OK, ALL, function(err, result) {

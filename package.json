@@ -27,6 +27,6 @@
   },
   "dependencies": {
 	  "async": "*",
-	  "serialport": "*"
+	  "serialport": "^4.0.1"
 	}
 }

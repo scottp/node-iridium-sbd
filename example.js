@@ -33,21 +33,22 @@ iridium.on('initialized', function() {
     //	    console.log(ctime);
     //	   });
 
+    sendMessage("hider");
     // sendBinaryMessage("hello2");
     //sendBinaryMessage(new Buffer("68656c6c6f", "hex"));
-    console.log("Network Time");
-    iridium.getNetworkTime(function(err, ctime) {
-        if (err) sys.log("Current Network time error = "+err);
-        sys.log("Current Network time is "+ctime);
-        sys.log("Current device time is "+Date(Date.now()));
+ //    console.log("Network Time");
+ //    iridium.getNetworkTime(function(err, ctime) {
+ //        if (err) sys.log("Current Network time error = "+err);
+ //        sys.log("Current Network time is "+ctime);
+ //        sys.log("Current device time is "+Date(Date.now()));
 
-        // var fdate = dateFormat(ctime, "mmddHHMMyyyy.ss");
-        // execSync("date "+fdate);
-        // sys.log("Date set from Iridium time");
+ //        // var fdate = dateFormat(ctime, "mmddHHMMyyyy.ss");
+ //        // execSync("date "+fdate);
+ //        // sys.log("Date set from Iridium time");
 
-	// Example - you can close the port now we have completed...
-	// iridium.close();
-    })
+	// // Example - you can close the port now we have completed...
+	// // iridium.close();
+ //    });
 
     //console.log("System Time");
     //iridium.getSystemTime(function(err, ctime) {
