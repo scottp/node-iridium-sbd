@@ -30,7 +30,7 @@ let iridium = {
     buffer: "",
     data: "",
     messagePending:0,
-    binary: {mode: false, buffer: new Buffer(512), bufferCounter: 0},    
+    binary: {mode: false, buffer: new Buffer(1024), bufferCounter: 0},    
     errors: [
         /ERROR/
     ],    
@@ -318,7 +318,7 @@ let iridium = {
         }
         serialPort = new SerialPort(iridium.globals.port, {
             baudrate: iridium.globals.baudrate,
-            buffersize: 512,
+            buffersize: 1024,
             parser: iridium.readSBD
         });
         serialPort.on("data", function (data) {
@@ -369,7 +369,8 @@ let iridium = {
             if(iridium.globals.flowControl){
                 iridium.init();
               }else{
-                iridium.disableFlowControl(iridium.init);
+                //iridium.disableFlowControl(iridium.init);
+                iridium.init();
           }
         });
     

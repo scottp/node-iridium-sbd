@@ -1,7 +1,8 @@
 Node.js library for sending and receiving [Iridium SBD](https://www.iridium.com/services/details/iridium-sbd) (Short Burst Data).
 
-Created for using with [RockBlock](http://www.rock7.com) modems but should work with other Iridium 9602 modems.
+Original library created for using with [RockBlock](http://www.rock7.com) modems.
 
+This forked library has been modified to work with Beam Iridium modems using the  9522B L-band transiever.
 
 ## Installation
 ```console
