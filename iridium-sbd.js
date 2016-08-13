@@ -7,7 +7,6 @@
 // Original Source: http://www.veri.fi/iridiumsbd.tar.gz
 // (C) 2012 Razvan Dragomirescu <razvan.dragomirescu@veri.fi>
 
-
 const zlib = require('zlib'),
         async = require('async'),
         SerialPort = require("serialport"),
@@ -92,7 +91,7 @@ let iridium = {
             iridium.initComplete
             ]);
     },
-    //
+    
     batchProcess: function(tasks) {
         async.series(tasks, function(err, results) {
             if (err) {
@@ -218,7 +217,7 @@ let iridium = {
       });
     },
 
-    // send a message via SBD and call back when done
+    // send a message via SBD and callback when done
     sendMessage: function(message, callback, maxWait) {
         // if no message is given, this is a mailbox check, so clear the MO storage
         const command = message?"AT+SBDWT="+message:"AT+SBDD0"; 
@@ -350,8 +349,8 @@ let iridium = {
         });
     },
 
-    close: function() {
-	serialPort.close();
+    close: function(callback) {
+      serialPort.close(callback);
     },
 
     waitForNetwork: function(callback, maxWait) {
