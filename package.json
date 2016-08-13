@@ -1,5 +1,6 @@
 {
   "name": "iridium-sbd",
+  "main": "./iridium-sbd.js",
   "description": "Node.js library for Iridium SBD (short burst data)",
   "version": "0.0.10",
   "author": {
