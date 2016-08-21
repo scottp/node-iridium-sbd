@@ -29,7 +29,7 @@ let iridium = {
     buffer: "",
     data: "",
     messagePending:0,
-    binary: {mode: false, buffer: new Buffer(1024), bufferCounter: 0},    
+    binary: {mode: false, buffer: new Buffer(1800), bufferCounter: 0},
     errors: [
         /ERROR/
     ],
@@ -296,7 +296,7 @@ let iridium = {
         }
         serialPort = new SerialPort(iridium.globals.port, {
             baudrate: iridium.globals.baudrate,
-            buffersize: 1024,
+            buffersize: 1800,
             parser: iridium.readSBD
         });
         serialPort.on("data", function (data) {
