@@ -24,7 +24,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dudewheresmycode/node-iridium-sbd"
+    "url": "https://github.com/dudewheresmycode/node-iridium-sbd#0c932cd4e02c36d6d99a420bdd2b129b8190b035"
   },
   "dependencies": {
 	  "async": "*",

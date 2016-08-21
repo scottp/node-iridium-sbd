@@ -22,6 +22,8 @@ let serialEmitter;
 const OK = /^OK\r/;
 const ALL = /.*/;
 
+const bufferSize = 1024;
+
 // this array contains all possible unsollicited response codes and their
 // corresponding handling functions
 
@@ -29,7 +31,7 @@ let iridium = {
     buffer: "",
     data: "",
     messagePending:0,
-    binary: {mode: false, buffer: new Buffer(1800), bufferCounter: 0},
+    binary: {mode: false, buffer: new Buffer(bufferSize), bufferCounter: 0},
     errors: [
         /ERROR/
     ],
@@ -39,10 +41,10 @@ let iridium = {
         bars:0,
         baudrate: 19200, //serial baudrate for the RockBlock
         debug: 0, //should send extra debug info to the console
-        defaultTimeout: 60000, // 60 seconds general timeout for all commands
+        defaultTimeout: 40*1000, // 60 seconds general timeout for all commands
         simpleTimeout: 2000, // 2 seconds timeout for simple command such as "echo off" (ATE0)
         timeoutForever: -1,
-        maxAttempts: 10, //max attempts to send a message
+        maxAttempts: 5, //max attempts to send a message
         port: "/dev/ttyUSB0",
         flowControl: false
     },
@@ -296,7 +298,7 @@ let iridium = {
         }
         serialPort = new SerialPort(iridium.globals.port, {
             baudrate: iridium.globals.baudrate,
-            buffersize: 1800,
+            buffersize: bufferSize,
             parser: iridium.readSBD
         });
         serialPort.on("data", function (data) {
