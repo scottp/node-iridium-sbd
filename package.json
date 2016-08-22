@@ -1,5 +1,6 @@
 {
   "name": "iridium-sbd",
+  "main": "./iridium-sbd.js",
   "description": "Node.js library for Iridium SBD (short burst data)",
   "version": "0.0.10",
   "author": {
@@ -10,15 +11,23 @@
     {
       "name": "Razvan Dragomirescu",
       "email": "razvan.dragomirescu@veri.fi"
+    },
+    {
+      "name": "Scott Penrose",
+      "email": "scottp@dd.com.au"
+    },
+    {
+      "name": "Kurtis Harms",
+      "email": "emailkurtis@gmail.com"
     }
 	],
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dudewheresmycode/node-iridium-sbd"
+    "url": "https://github.com/dudewheresmycode/node-iridium-sbd#0c932cd4e02c36d6d99a420bdd2b129b8190b035"
   },
   "dependencies": {
 	  "async": "*",
-	  "serialport": "*"
+	  "serialport": "^4.0.1"
 	}
 }
